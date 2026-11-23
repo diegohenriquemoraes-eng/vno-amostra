@@ -16,4 +16,5 @@ exatamente **AMOSTRA** em post de até 90 dias recebe, por resposta privada, o l
 - Desligar: `gh workflow disable AMOSTRA -R diegohenriquemoraes-eng/vno-amostra`.
 - Rodar à mão: `gh workflow run AMOSTRA -R diegohenriquemoraes-eng/vno-amostra`.
 - De hora em hora (minuto < 10 UTC), Reel dos últimos 10 dias acima de 3.000 views ganha o comentário "Comenta AMOSTRA..." do @vendanaobra, uma vez (`comentados-amostra.json`).
+- **Placar de sexta** (`placar.mjs`, 09h BRT): funil da semana em `placar/AAAA-MM-DD.md` no repo privado vno-direct-estado (Instagram, robô, cliques da amostra pelo Blob do site com o segredo `BLOB_TOKEN`, vendas pela base do ecossistema-vno). Linha de base 16-23/11: 607 visitas, 3 toques no link (0,5%), 0 Caderno.
 - `lib/meta.js` (+ `comentar`) e `lib/estado.js` são cópias do vno-direct.

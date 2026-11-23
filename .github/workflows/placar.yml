@@ -1,0 +1,20 @@
+name: Placar AMOSTRA
+on:
+  schedule:
+    - cron: "0 12 * * 5"
+  workflow_dispatch:
+jobs:
+  placar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node placar.mjs
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          BLOB_TOKEN: ${{ secrets.BLOB_TOKEN }}
+          GH_REPO: diegohenriquemoraes-eng/vno-direct-estado
