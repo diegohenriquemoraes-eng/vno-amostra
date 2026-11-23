@@ -1,0 +1,22 @@
+name: AMOSTRA
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+concurrency:
+  group: amostra
+  cancel-in-progress: false
+jobs:
+  rodada:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node amostra.mjs
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_REPO: diegohenriquemoraes-eng/vno-direct-estado
