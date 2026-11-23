@@ -109,16 +109,44 @@ async function atender(c, conta, sc, log, cont) {
   return true;
 }
 
+// De hora em hora: Reel dos últimos 10 dias que passou de 3.000 views ganha o comentário do
+// próprio @vendanaobra chamando a palavra (frente E da estratégia). Um comentário por Reel, para
+// sempre (comentados-amostra.json). Os 9 de 23/11 foram feitos à mão e já estão no arquivo.
+const COMENTARIO = "Isso é um pedaço do meu método de vendas em 5 passos\n\nComenta AMOSTRA que eu te mando no direct uma ficha de cada passo, de graça";
+const VIEWS_MIN = 3000;
+async function comentarVirais(lista, cont) {
+  if (new Date().getUTCMinutes() >= 10 && !process.env.FORCAR_VIRAIS) return;
+  const { dados: feitos } = await ler("comentados-amostra.json", {});
+  const novos = {};
+  for (const m of lista) {
+    if (m.media_product_type !== "REELS" || feitos[m.id]) continue;
+    if (Date.now() - new Date(m.timestamp) > 10 * DIA) continue;
+    const r = await meta.get(`${m.id}/insights`, { metric: "views" });
+    const v = r.data?.[0]?.values?.[0]?.value || 0;
+    if (v < VIEWS_MIN) continue;
+    const c = await meta.comentar(m.id, COMENTARIO);
+    if (c.error) { cont.erros++; continue; }
+    novos[m.id] = `${agora()} ${m.shortcode} ${v} views`;
+    cont.virais++;
+  }
+  if (Object.keys(novos).length) {
+    await mudar("comentados-amostra.json", {}, (d) => { Object.assign(d, novos); }, "comentário AMOSTRA em viral");
+    await anotar(Object.values(novos).map((x) => `comentário AMOSTRA no viral ${x}`));
+  }
+}
+
 export async function rodada() {
-  const cont = { posts: 0, lidos: 0, pedidos: 0, enviadas: 0, ja_conversa: 0, erros: 0 };
+  const cont = { posts: 0, lidos: 0, pedidos: 0, enviadas: 0, ja_conversa: 0, virais: 0, erros: 0 };
   const log = [];
   const { dados: roteiros } = await ler("roteiros.json", { posts: {} });
-  const lista = Array.isArray(roteiros.nao_enviar) ? roteiros.nao_enviar : Object.keys(roteiros.nao_enviar || {});
-  const nao = new Set(lista.map((x) => String(x).toLowerCase().replace(/^@/, "")));
+  const naoLista = Array.isArray(roteiros.nao_enviar) ? roteiros.nao_enviar : Object.keys(roteiros.nao_enviar || {});
+  const nao = new Set(naoLista.map((x) => String(x).toLowerCase().replace(/^@/, "")));
   const { dados: contagem } = await ler("contagem-amostra.json", {});
   const antes = JSON.stringify(contagem);
   let conv = null;
-  for (const m of await posts()) {
+  const lista = await posts();
+  try { await comentarVirais(lista, cont); } catch { cont.erros++; }
+  for (const m of lista) {
     cont.posts++;
     if (!m.comments_count || contagem[m.shortcode] === m.comments_count) continue;
     cont.lidos++;

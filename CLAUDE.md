@@ -15,4 +15,5 @@ exatamente **AMOSTRA** em post de até 90 dias recebe, por resposta privada, o l
   `GH_PAT` (`gh auth token`).
 - Desligar: `gh workflow disable AMOSTRA -R diegohenriquemoraes-eng/vno-amostra`.
 - Rodar à mão: `gh workflow run AMOSTRA -R diegohenriquemoraes-eng/vno-amostra`.
-- `lib/meta.js` e `lib/estado.js` são cópias do vno-direct.
+- De hora em hora (minuto < 10 UTC), Reel dos últimos 10 dias acima de 3.000 views ganha o comentário "Comenta AMOSTRA..." do @vendanaobra, uma vez (`comentados-amostra.json`).
+- `lib/meta.js` (+ `comentar`) e `lib/estado.js` são cópias do vno-direct.
