@@ -5,6 +5,9 @@ exatamente **AMOSTRA** em post de até 90 dias recebe, por resposta privada, o l
 `vendanaobra.com.br/a/<código>` (amostra grátis dos 5 passos, clique gravado no Blob do site) e
 "Te mandei no direct!" em público. A cada 10 min no GitHub Actions (repo PÚBLICO = minutos grátis).
 
+- Na bio (vendanaobra.com.br), desde 24/11/2026 a amostra NÃO tem card próprio: é o link "ou veja grátis 1 ficha
+  de cada passo" embaixo do botão do card do Caderno (1º card). Toques da bio na /amostra tendem a cair; comparar
+  com a venda do Caderno, não só com os toques.
 - O robô de abertura (`Projetos\vno-direct`) continua PAUSADO; este só atende AMOSTRA.
 - Uma vez por pessoa para sempre (mesmo `conversas.json` do vno-direct); quem já conversa no
   direct não recebe (fica para o Diego no app vno-comentarios); SAIR/EXCLUIR respeitados.
